@@ -7,7 +7,7 @@ block content
         #sidebar-wrapper.bg-light.border-right
             .sidebar-heading Problems 
             .list-group.list-group-flush
-                -for (var i = 1; i < size; i++)
+                -for (var i = 1; i <= size; i++)
                     +problemLink(i)
         // /#sidebar-wrapper
         // Page Content
@@ -33,15 +33,7 @@ block content
                                 .dropdown-divider
                                 a.dropdown-item(href='#') Something else here
             .container-fluid
-                h1.mt-4 Simple Sidebar
-                p
-                    | The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.
-                p
-                    | Make sure to keep all page content within the 
-                    code #page-content-wrapper
-                    | . The top navbar is optional, and just for demonstration. Just create an element with the 
-                    code #menu-toggle
-                    |  ID which will toggle the menu when clicked.
+                p#desc #{desc}
         // /#page-content-wrapper
     // /#wrapper
     // Bootstrap core JavaScript
@@ -53,3 +45,13 @@ block content
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
         });
+
+        const desc = document.getElementById("desc")
+        
+        getProblem = function(idx){
+            fetch("/exam/problems/" + idx, {method: "GET"}).
+            then(res => res.json()).
+            then(data => {
+                desc.textContent = data
+            })
+        }

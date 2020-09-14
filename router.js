@@ -12,6 +12,6 @@ router.get('/', (req, res) => {
 
 router.get('/exam', getStart)
 
-router.get('/problems/:id', getProblem)
+router.get('/exam/problems/:id', getProblem)
 
 export default router;
