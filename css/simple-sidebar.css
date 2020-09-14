@@ -15,6 +15,8 @@
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;
   transition: margin .25s ease-out;
+  max-height: calc(100vh - 9rem);
+  overflow-y: scroll;
 }
 
 #sidebar-wrapper .sidebar-heading {

@@ -1,12 +1,9 @@
 import express from 'express';
 import router from './router';
-import path  from 'path';
 
 const app = express();
 
-app.set('views', path.join(__dirname, 'views'))
-app.engine('html', require('ejs').renderFile)
-app.set('view engine', 'html')
+app.set('view engine', 'pug')
 
 app.use(express.static(__dirname + '/'))
 app.use('/', router);
