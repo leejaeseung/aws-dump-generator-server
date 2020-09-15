@@ -4,10 +4,6 @@ import router from './router';
 var bodyParser = require('body-parser');
 const app = express();
 
-app.set('views', __dirname + '/views')
-app.set('view engine', 'ejs')
-app.engine('html', require('ejs').renderFile);
-
 app.set('view engine', 'pug')
 
 app.use(bodyParser.urlencoded({ extended: true }));
