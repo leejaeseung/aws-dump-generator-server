@@ -4,13 +4,10 @@ import {getStart, getProblem} from './controller';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-
-    console.log("?")
-
     res.render('test', {title: 'Start Page'});
 })
 
-router.get('/exam', getStart)
+router.post('/exam', getStart)
 
 router.get('/exam/problems/:id', getProblem)
 

@@ -30,21 +30,26 @@
         "url": "https://github.com/StartBootstrap/startbootstrap-simple-sidebar.git"
     },
     "dependencies": {
+        "@babel/preset-env": "^7.11.5",
+        "body-parser": "^1.19.0",
         "bootstrap": "4.5.0",
         "ejs": "^3.1.5",
         "express": "^4.17.1",
         "jquery": "3.5.1",
-        "nodemon": "^2.0.4",
+        "package-lock.json": "^1.0.0",
         "path": "^0.12.7",
         "pug": "^3.0.0"
     },
     "devDependencies": {
+        "@babel/core": "^7.11.6",
+        "@babel/node": "^7.10.5",
         "babel-core": "^6.26.3",
         "babel-preset-latest": "^6.24.1",
         "browser-sync": "2.26.7",
         "del": "5.1.0",
         "gulp": "^4.0.2",
         "gulp-util": "^3.0.8",
-        "merge-stream": "2.0.0"
+        "merge-stream": "2.0.0",
+        "nodemon": "^2.0.4"
     }
 }

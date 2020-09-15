@@ -1,10 +1,12 @@
 import express from 'express';
 import router from './router';
 
+var bodyParser = require('body-parser');
 const app = express();
 
 app.set('view engine', 'pug')
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/'))
 app.use('/', router);
 

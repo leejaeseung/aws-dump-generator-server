@@ -1,4 +1,18 @@
 extends ./head
 
 block content
-    a(href="/exam") start
+    main(role='main')
+        .jumbotron
+            .container
+                h1.display-3 AWS DUMP 문제은행
+                    div(class="col-sm-6")
+                        form(action="/exam" method="post")
+                            div(class="form-group")
+                                label(class="h2") 문제 수를 입력하세요
+                                input(class="form-control form-control-lg" type="number" name="pnum" value="10")
+                            div(class="form-group")
+                                button(class='btn btn-primary btn-lg btn-block' type='submit') 문제 풀기 &nbsp;
+                                    i.fa.fa-search
+                                    
+    footer.container
+        p © 이재승, 신윤섭 2020
