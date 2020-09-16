@@ -5,53 +5,84 @@ block content
     #wrapper.d-flex
         // Sidebar
         #sidebar-wrapper.bg-light.border-right
-            .sidebar-heading Problems 
+            .sidebar-heading Problems &nbsp;
+                i.fas.fa-laptop-code
             .list-group.list-group-flush
-                -for (var i = 1; i <= size; i++)
+                - for (var i = 1; i <= size; i++) {
                     +problemLink(i)
-        // /#sidebar-wrapper
+                - }
+
         // Page Content
         #page-content-wrapper
             nav.navbar.navbar-expand-lg.navbar-light.bg-light.border-bottom
-                button#menu-toggle.btn.btn-primary Toggle Menu
-                button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
-                    span.navbar-toggler-icon
+                i#menu-toggle(class="fa fa-toggle-on fa-lg" toggle="on")
+                
                 #navbarSupportedContent.collapse.navbar-collapse
                     ul.navbar-nav.ml-auto.mt-2.mt-lg-0
                         li.nav-item.active
-                            a.nav-link(href='#')
-                                | Home 
+                            a.nav-link(href='/')
+                                i.fa.fa-home.fa-lg
                             span.sr-only (current)
-                        li.nav-item
-                            a.nav-link(href='#') Link
-                        li.nav-item.dropdown
-                            a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-                                | Dropdown
-                            .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
-                                a.dropdown-item(href='#') Action
-                                a.dropdown-item(href='#') Another action
-                                .dropdown-divider
-                                a.dropdown-item(href='#') Something else here
+                            
             .container-fluid
-                p#desc #{desc}
-        // /#page-content-wrapper
-    // /#wrapper
-    // Bootstrap core JavaScript
-    script(src='/vendor/jquery/jquery.min.js')
-    script(src='/vendor/bootstrap/js/bootstrap.bundle.min.js')
+                h#description #{description}
+
+                hr
+
+                table#question_table.table
+                    each question in questions
+                        tr
+                            td
+                                input#answer_checkbox(type="checkbox")
+                            td #{question}
+                        
+
     // Menu Toggle Script
     script.
+        const menu_toggle = document.getElementById("menu-toggle");
+
         $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
+            if (menu_toggle.getAttribute("toggle") == "on") {
+                menu_toggle.setAttribute("toggle", "off");
+                menu_toggle.setAttribute("class", "fa fa-toggle-off fa-lg");
+            }
+            else {
+                menu_toggle.setAttribute("toggle", "on");
+                menu_toggle.setAttribute("class", "fa fa-toggle-on fa-lg");
+            }
+            
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
         });
 
-        const desc = document.getElementById("desc")
+    script.
+        const description = document.getElementById("description");
+        const question_table = document.getElementById("question_table");
         
         getProblem = function(idx){
             fetch("/exam/problems/" + idx, {method: "GET"}).
             then(res => res.json()).
             then(data => {
-                desc.textContent = data
+                // description
+                description.innerText = data['description'];
+
+                // question table
+                document.querySelectorAll("tr").forEach(e => e.remove())
+                for (var i = 0; i < data['questions'].length; i++) {
+                    var tr = document.createElement('tr');
+                    var td1 = document.createElement('td');
+                    var td2 = document.createElement('td');
+                    var checkbox = document.createElement('input');
+                    checkbox.type = "checkbox";
+                    checkbox.id = "id" + i;
+                    td1.appendChild(checkbox);
+                    var questionInfo = document.createTextNode(data['questions'][i]);
+                    td2.appendChild(questionInfo);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    question_table.appendChild(tr);
+                }
+
+                answer = data['answer'];
             })
         }
