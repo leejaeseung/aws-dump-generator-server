@@ -14,7 +14,7 @@ block content
         // Page Content
         #page-content-wrapper
             nav.navbar.navbar-expand-lg.navbar-light.bg-light.border-bottom
-                i#menu-toggle(class="fa fa-toggle-on fa-lg")
+                i#menu-toggle(class="fa fa-toggle-on fa-lg" toggle="on")
                 
                 #navbarSupportedContent.collapse.navbar-collapse
                     ul.navbar-nav.ml-auto.mt-2.mt-lg-0
@@ -24,31 +24,64 @@ block content
                             span.sr-only (current)
                             
             .container-fluid
-                p#desc #{desc}
+                h#description #{description}
+
+                hr
+
+                table#question_table.table
+                    each question in questions
+                        tr
+                            td
+                                input#answer_checkbox(type="checkbox")
+                            td #{question}
+                        
 
     // Menu Toggle Script
     script.
         const menu_toggle = document.getElementById("menu-toggle");
 
         $("#menu-toggle").click(function(e) {
-            if (menu_toggle.getAttribute("class") == "fa fa-toggle-on fa-lg")
+            if (menu_toggle.getAttribute("toggle") == "on") {
+                menu_toggle.setAttribute("toggle", "off");
                 menu_toggle.setAttribute("class", "fa fa-toggle-off fa-lg");
-            else
+            }
+            else {
+                menu_toggle.setAttribute("toggle", "on");
                 menu_toggle.setAttribute("class", "fa fa-toggle-on fa-lg");
+            }
             
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
 
     script.
-        const desc = document.getElementById("desc");
-        const questions = document.getElementById("questions");
+        const description = document.getElementById("description");
+        const question_table = document.getElementById("question_table");
         
         getProblem = function(idx){
             fetch("/exam/problems/" + idx, {method: "GET"}).
             then(res => res.json()).
             then(data => {
-                desc.innerText = data,
-                quesitons.innerText = data
+                // description
+                description.innerText = data['description'];
+
+                // question table
+                document.querySelectorAll("tr").forEach(e => e.remove())
+                for (var i = 0; i < data['questions'].length; i++) {
+                    var tr = document.createElement('tr');
+                    var td1 = document.createElement('td');
+                    var td2 = document.createElement('td');
+                    var checkbox = document.createElement('input');
+                    checkbox.type = "checkbox";
+                    checkbox.id = "id" + i;
+                    td1.appendChild(checkbox);
+                    var questionInfo = document.createTextNode(data['questions'][i]);
+                    td2.appendChild(questionInfo);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    question_table.appendChild(tr);
+                }
+
+                answer = data['answer'];
             })
         }

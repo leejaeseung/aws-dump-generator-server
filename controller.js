@@ -1,17 +1,18 @@
 import fs from 'fs';
 import {} from './func'
 
-var nowProblems
+var nowProblems;
+var probSize;
 
 export const getStart = (req, res) => {
     var problems = JSON.parse(fs.readFileSync('./assets/AWS-Developer V16.75.json').toString())
-    var probSize = req.body.probSize;
+    probSize = req.body.probSize;
     nowProblems = problems.shuffle(probSize);
 
     res.render("exam", {
         title: "Exam Page",
         size: probSize,
-        desc: nowProblems[0].description,
+        description: nowProblems[0].description,
         questions: nowProblems[0].questions,
         answer: nowProblems[0].answer
     })
@@ -19,7 +20,11 @@ export const getStart = (req, res) => {
 
 export const getProblem = (req, res) => {
     const probNum = req.params.id - 1;
-    res.json(nowProblems[probNum].description)
-    res.json(nowProblems[probNum].questions)
-    res.json(nowProblems[probNum].answer)
+    res.json({
+        title: "Exam Page",
+        size: probSize,
+        description: nowProblems[probNum].description,
+        questions: nowProblems[probNum].questions,
+        answer: nowProblems[probNum].answer
+    })
 }
