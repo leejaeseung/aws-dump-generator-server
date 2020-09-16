@@ -69,6 +69,7 @@ block content
                 // question table
                 document.querySelectorAll("tr").forEach(e => e.remove())
                 for (var i = 0; i < data['questions'].length; i++) {
+
                     var tr = document.createElement('tr');
                     var td1 = document.createElement('td');
                     var td2 = document.createElement('td');
@@ -80,7 +81,12 @@ block content
                     td2.appendChild(questionInfo);
                     tr.appendChild(td1);
                     tr.appendChild(td2);
-                    question_table.appendChild(tr);
+
+                    var lb = document.createElement('label')
+                    lb.for = checkbox.id
+                    lb.appendChild(tr)
+
+                    question_table.appendChild(lb);
                 }
 
                 answer = data['answer'];
