@@ -30,7 +30,6 @@ block content
                 hr
 
                 table#question_table.table
-                    tbody
                     //- for (var i = 0; i < questions.length; i++) {
                         tr
                             label(for="id" + i)
@@ -69,7 +68,8 @@ block content
                 // description
                 description.innerText = data['description'];
 
-                question_table.removeChild(question_table.firstChild)
+                if(question_table.hasChildNode)
+                    question_table.removeChild(question_table.firstChild)
                 
                 var tbody = document.createElement('tbody');
                 // question table
