@@ -4,15 +4,17 @@ block content
     main(role='main')
         .jumbotron
             .container
-                h1.display-3 AWS DUMP 문제은행
+                h1.display-3 AWS Dump Questionbank
                     div(class="col-sm-6")
                         form(action="/exam" method="post")
                             div(class="form-group")
-                                label(class="h2") 문제 수를 입력하세요
-                                input(class="form-control form-control-lg" type="number" name="probSize" value="10")
+                                label(class="h2") The number of problems: &nbsp;
+                                    output#amount(name="amount" for="probSize") 10
+                                input#probInput(class="form-control-range form-control-lg" type="range" name="probSize" value="10" min="1" max="65" oninput="amount.value=probInput.value")
+                                
                             div(class="form-group")
-                                button(class='btn btn-primary btn-lg btn-block' type='submit') 문제 풀기 &nbsp;
+                                button(class='btn btn-primary btn-lg btn-block' type='submit') Test &nbsp;
                                     i.fa.fa-search
                                     
     footer.container
-        p © 이재승, 신윤섭 2020
+        p © Jaeseung Lee, Yoonseop Shin 2020
