@@ -59,7 +59,7 @@ block content
         const description = document.getElementById("description");
         const question_table = document.getElementById("question_table");
         
-        getProblem = function(idx){
+        getProblem = function(idx) {
             fetch("/exam/problems/" + idx, {method: "GET"}).
             then(res => res.json()).
             then(data => {
