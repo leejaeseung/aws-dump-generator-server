@@ -4,7 +4,7 @@ import {getStart, getProblem} from './controller';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('test', {title: 'Start Page'});
+    res.render('home', {title: 'Home'});
 })
 
 router.post('/exam', getStart)

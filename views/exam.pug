@@ -7,51 +7,48 @@ block content
         #sidebar-wrapper.bg-light.border-right
             .sidebar-heading Problems 
             .list-group.list-group-flush
-                -for (var i = 1; i <= size; i++)
+                - for (var i = 1; i <= size; i++) {
                     +problemLink(i)
-        // /#sidebar-wrapper
+                - }
+
         // Page Content
         #page-content-wrapper
             nav.navbar.navbar-expand-lg.navbar-light.bg-light.border-bottom
-                button#menu-toggle.btn.btn-primary Toggle Menu
-                button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
-                    span.navbar-toggler-icon
+                i#menu-toggle(class="fa fa-toggle-on fa-lg")
+                
                 #navbarSupportedContent.collapse.navbar-collapse
                     ul.navbar-nav.ml-auto.mt-2.mt-lg-0
                         li.nav-item.active
-                            a.nav-link(href='#')
-                                | Home 
+                            a.nav-link(href='/')
+                                i.fa.fa-home.fa-lg
                             span.sr-only (current)
-                        li.nav-item
-                            a.nav-link(href='#') Link
-                        li.nav-item.dropdown
-                            a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-                                | Dropdown
-                            .dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdown')
-                                a.dropdown-item(href='#') Action
-                                a.dropdown-item(href='#') Another action
-                                .dropdown-divider
-                                a.dropdown-item(href='#') Something else here
+                            
             .container-fluid
                 p#desc #{desc}
-        // /#page-content-wrapper
-    // /#wrapper
-    // Bootstrap core JavaScript
-    script(src='/vendor/jquery/jquery.min.js')
-    script(src='/vendor/bootstrap/js/bootstrap.bundle.min.js')
+
     // Menu Toggle Script
     script.
+        const menu_toggle = document.getElementById("menu-toggle");
+
         $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
+            if (menu_toggle.getAttribute("class") == "fa fa-toggle-on fa-lg")
+                menu_toggle.setAttribute("class", "fa fa-toggle-off fa-lg");
+            else
+                menu_toggle.setAttribute("class", "fa fa-toggle-on fa-lg");
+            
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
         });
 
-        const desc = document.getElementById("desc")
+    script.
+        const desc = document.getElementById("desc");
+        const questions = document.getElementById("questions");
         
         getProblem = function(idx){
             fetch("/exam/problems/" + idx, {method: "GET"}).
             then(res => res.json()).
             then(data => {
-                desc.textContent = data
+                desc.innerText = data,
+                quesitons.innerText = data
             })
         }
