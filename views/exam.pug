@@ -30,11 +30,14 @@ block content
                 hr
 
                 table#question_table.table
-                    each question in questions
+                    tbody
+                    //- for (var i = 0; i < questions.length; i++) {
                         tr
-                            td
-                                input#answer_checkbox(type="checkbox")
-                            td #{question}
+                            label(for="id" + i)
+                                td
+                                    input(id="id" + i, type="checkbox")
+                                td #{questions[i]}
+                    //- }
                         
 
     // Menu Toggle Script
@@ -66,29 +69,39 @@ block content
                 // description
                 description.innerText = data['description'];
 
+                question_table.removeChild(question_table.firstChild)
+                
+                var tbody = document.createElement('tbody');
                 // question table
-                document.querySelectorAll("tr").forEach(e => e.remove())
+                //document.querySelectorAll("label").forEach(e => e.remove())
                 for (var i = 0; i < data['questions'].length; i++) {
 
                     var tr = document.createElement('tr');
                     var td1 = document.createElement('td');
                     var td2 = document.createElement('td');
                     var checkbox = document.createElement('input');
+                    var lb = document.createElement('label')
+
                     checkbox.type = "checkbox";
                     checkbox.id = "id" + i;
                     td1.appendChild(checkbox);
                     var questionInfo = document.createTextNode(data['questions'][i]);
                     td2.appendChild(questionInfo);
-                    tr.appendChild(td1);
-                    tr.appendChild(td2);
 
-                    var lb = document.createElement('label')
-                    lb.for = checkbox.id
-                    lb.appendChild(tr)
+                    //lb.for = checkbox.id
+                    
+                    tr.appendChild(lb);
+                    lb.appendChild(td1);
+                    lb.appendChild(td2);
 
-                    question_table.appendChild(lb);
+                    tbody.appendChild(tr)
                 }
+
+                question_table.appendChild(tbody);
 
                 answer = data['answer'];
             })
         }
+
+        getProblem(1)
+        // 맨 처음 렌더링 됐을 때 1번 문제를 가져옴
