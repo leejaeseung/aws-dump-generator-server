@@ -21,8 +21,6 @@ export const getStart = (req, res) => {
 export const getProblem = (req, res) => {
     const probNum = req.params.id - 1;
     res.json({
-        title: "Exam Page",
-        size: probSize,
         description: nowProblems[probNum].description,
         questions: nowProblems[probNum].questions,
         answer: nowProblems[probNum].answer
