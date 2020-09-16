@@ -5,7 +5,8 @@ block content
     #wrapper.d-flex
         // Sidebar
         #sidebar-wrapper.bg-light.border-right
-            .sidebar-heading Problems 
+            .sidebar-heading Problems &nbsp;
+                i.fas.fa-laptop-code
             .list-group.list-group-flush
                 - for (var i = 1; i <= size; i++) {
                     +problemLink(i)
