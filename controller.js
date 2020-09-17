@@ -42,10 +42,7 @@ export const postChooseProblem = async (req, res) => {
         const nowQ = String.fromCharCode(i + 'A'.charCodeAt(0));
 
         if(userAnswer[probNum][i]){
-            if(i < userAnswer[probNum].length - 1)
-                answerString += nowQ + ", "
-            else
-                answerString += nowQ
+            answerString += nowQ + " "
         }
     }
 
@@ -59,11 +56,6 @@ export const postChooseProblem = async (req, res) => {
 
 export const getProblem = (req, res) => {
     const probNum = req.params.id - 1;
-
-    /*for(var i = 0; i < userAnswer[probNum].length; i++){
-        index = userAnswer[probNum].charCodeAt(0) - 'A'.charCodeAt(0)
-        checkList.push(index)
-    }*/
 
     res.json({
         description: nowProblems[probNum].description,
