@@ -60,15 +60,35 @@ block content
     script.
         const description = document.getElementById("description");
         const question_table = document.getElementById("question_table");
+
+        problemCheck = function(pNum, qNum){
+            fetch('/exam/problems/' + pNum, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"}, 
+            body: JSON.stringify({check: qNum})
+            }).
+            then(res => res.json()).
+            then(data => {
+                const problemLink = document.getElementById("problemLink" + data.pNum)
+
+                problemLink.innerText = "Problem " + data.pNum + " " + data.userAnswer
+            })
+        }
+
+        eventAdder = function(checkbox, idx, pNum){
+            checkbox.addEventListener('click', () => {
+                problemCheck(pNum, idx);
+            })
+        }
         
-        getProblem = function(idx) {
-            fetch("/exam/problems/" + idx, {method: "GET"}).
+        getProblem = function(pNum) {
+            fetch("/exam/problems/" + pNum, {method: "GET"}).
             then(res => res.json()).
             then(data => {
                 // description
                 description.innerText = data['description'];
 
-                if(question_table.hasChildNode)
+                if(question_table.hasChildNodes())
                     question_table.removeChild(question_table.firstChild)
                 
                 var tbody = document.createElement('tbody');
@@ -83,7 +103,11 @@ block content
                     var lb = document.createElement('label')
 
                     checkbox.type = "checkbox";
-                    checkbox.id = "id" + i;
+                    checkbox.id = "checkbox" + i;
+                    if(data.checks[i])
+                        checkbox.checked = true
+                    eventAdder(checkbox, i, pNum);
+
                     td1.appendChild(checkbox);
                     var questionInfo = document.createTextNode(data['questions'][i]);
                     td2.appendChild(questionInfo);

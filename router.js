@@ -1,5 +1,5 @@
 import express from 'express';
-import {getStart, getProblem} from './controller';
+import {getStart, getProblem, postChooseProblem} from './controller';
 
 const router = express.Router();
 
@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 
 router.post('/exam', getStart)
 
+router.post('/exam/problems/:id', postChooseProblem)
 router.get('/exam/problems/:id', getProblem)
 
 export default router;
