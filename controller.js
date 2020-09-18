@@ -17,9 +17,6 @@ export const getStart = (req, res) => {
     res.render("exam", {
         title: "Exam Page",
         size: probSize
-        //description: nowProblems[0].description,
-        //questions: nowProblems[0].questions,
-        //answer: nowProblems[0].answer
     })
 }
 
@@ -36,21 +33,18 @@ export const postChooseProblem = async (req, res) => {
 
     userAnswer[probNum][check] = !userAnswer[probNum][check]
 
-    var answerString = ""
+    var isCheck = false;
 
     for(var i = 0; i < userAnswer[probNum].length; i++){
-        const nowQ = String.fromCharCode(i + 'A'.charCodeAt(0));
-
         if(userAnswer[probNum][i]){
-            answerString += nowQ + " "
+            isCheck = true
+            break
         }
     }
-
-    console.log(answerString)
     
     res.json({
         pNum: probNum + 1,
-        userAnswer: answerString,
+        isCheck
     })
 }
 

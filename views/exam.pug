@@ -69,9 +69,19 @@ block content
             }).
             then(res => res.json()).
             then(data => {
-                const problemLink = document.getElementById("problemLink" + data.pNum)
+                const problemCheck = document.getElementById("problemCheck" + data.pNum)
 
-                problemLink.innerText = "Problem " + data.pNum + " " + data.userAnswer
+                if(data.isCheck){
+                    const icon = document.createElement("i")
+                    icon.className = "fas fa-check"
+
+                    problemCheck.appendChild(icon)
+
+                    //problemLink.innerText = "Problem " + data.pNum + " " + data.userAnswer
+                }
+                else{
+
+                }
             })
         }
 
