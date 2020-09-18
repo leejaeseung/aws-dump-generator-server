@@ -1,2 +1,2 @@
 mixin problemLink(idx)
-    a.list-group-item.list-group-item-action.bg-light(href='javascript:;', onClick='getProblem(\"' + idx + '\")', id="problemLink" + idx) Problem #{idx}
+    a.list-group-item.list-group-item-action.bg-light(href='javascript:;', onClick='getProblem(\"' + idx + '\")', id="problemLink" + idx) Problem #{idx} #[span(id="problemCheck" + idx)]

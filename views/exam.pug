@@ -72,15 +72,18 @@ block content
                 const problemCheck = document.getElementById("problemCheck" + data.pNum)
 
                 if(data.isCheck){
-                    const icon = document.createElement("i")
-                    icon.className = "fas fa-check"
+                    if(!problemCheck.hasChildNodes()){
+                        const icon = document.createElement("i")
+                        icon.className = "fas fa-check"
 
-                    problemCheck.appendChild(icon)
+                        problemCheck.appendChild(icon)
+                    }
 
                     //problemLink.innerText = "Problem " + data.pNum + " " + data.userAnswer
                 }
                 else{
-
+                    if(problemCheck.hasChildNodes())
+                        problemCheck.removeChild(problemCheck.firstChild)
                 }
             })
         }
@@ -111,6 +114,8 @@ block content
                     var td2 = document.createElement('td');
                     var checkbox = document.createElement('input');
                     var lb = document.createElement('label')
+
+                    td2.style = "width: 2000px;"
 
                     checkbox.type = "checkbox";
                     checkbox.id = "checkbox" + i;
