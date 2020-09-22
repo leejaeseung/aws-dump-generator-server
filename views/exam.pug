@@ -20,23 +20,21 @@ block content
                 #navbarSupportedContent.collapse.navbar-collapse
                     ul.navbar-nav.ml-auto.mt-2.mt-lg-0
                         li.nav-item.active
+                            a.nav-link#prevProblem(href='javascript:;') Prev
+                        li.nav-item.active
+                            a.nav-link#nextProblem(href='javascript:;') Next
+                        li.nav-item.active
                             a.nav-link(href='/')
                                 i.fa.fa-home.fa-lg
                             span.sr-only (current)
                             
-            .container-fluid
-                h#description #{description}
+            .container-fluid#problemBlock
+                p#problemNum
+                h#description
 
                 hr
 
                 table#question_table.table
-                    //- for (var i = 0; i < questions.length; i++) {
-                        tr
-                            label(for="id" + i)
-                                td
-                                    input(id="id" + i, type="checkbox")
-                                td #{questions[i]}
-                    //- }
                         
 
     // Menu Toggle Script
@@ -60,7 +58,17 @@ block content
     script.
         const description = document.getElementById("description");
         const question_table = document.getElementById("question_table");
+        const problemNum = document.getElementById("problemNum");
 
+        const problemBlock = document.getElementById("problemBlock");
+        const maxSize = Number("#{size}")
+        
+        const prevBt = document.getElementById("prevProblem");
+        const nextBt = document.getElementById("nextProblem");
+
+        var now
+
+        
         problemCheck = function(pNum, qNum){
             fetch('/exam/problems/' + pNum, {
             method: "POST",
@@ -76,10 +84,13 @@ block content
                         const icon = document.createElement("i")
                         icon.className = "fas fa-check"
 
+                        //체크 표시 색깔 지정, default: black
+                        //problemCheck.style="color: red;"
+                        //problemCheck.style="color: green;"
+
                         problemCheck.appendChild(icon)
                     }
 
-                    //problemLink.innerText = "Problem " + data.pNum + " " + data.userAnswer
                 }
                 else{
                     if(problemCheck.hasChildNodes())
@@ -87,18 +98,40 @@ block content
                 }
             })
         }
+        
+        const getPrevProblem = () => {
+            const pNum = Number(problemBlock.dataset.pnum)
 
-        eventAdder = function(checkbox, idx, pNum){
-            checkbox.addEventListener('click', () => {
-                problemCheck(pNum, idx);
-            })
+            if(pNum > 1)
+                getProblem(pNum - 1)
         }
+
+        const getNextProblem = () => {
+            const pNum = Number(problemBlock.dataset.pnum)
+
+            if(pNum < maxSize)
+                getProblem(pNum + 1)
+        }
+
+        nextBt.addEventListener('click', getNextProblem)
+        prevBt.addEventListener('click', getPrevProblem)
         
         getProblem = function(pNum) {
+
+            problemBlock.dataset.pnum = pNum
+
+            eventAdder = function(checkbox, idx, pNum){
+                checkbox.addEventListener('click', () => {
+                    problemCheck(pNum, idx);
+                })
+            }
+
             fetch("/exam/problems/" + pNum, {method: "GET"}).
             then(res => res.json()).
             then(data => {
                 // description
+
+                problemNum.innerText = "Problem " + Number(pNum)
                 description.innerText = data['description'];
 
                 if(question_table.hasChildNodes())
