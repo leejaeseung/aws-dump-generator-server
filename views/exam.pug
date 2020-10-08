@@ -20,10 +20,14 @@ block content
                 #navbarSupportedContent.collapse.navbar-collapse
                     ul.navbar-nav.ml-auto.mt-2.mt-lg-0
                         li.nav-item.active
-                            a.nav-link#prevProblem(href='javascript:;') Prev
+                            a.nav-link#submitBt(href='javascript:;') 채점
                         li.nav-item.active
-                            a.nav-link#nextProblem(href='javascript:;') Next
+                            a.nav-link#prevProblem(href='javascript:;')
+                                i.fas.fa-angle-left.fa-2x
                         li.nav-item.active
+                            a.nav-link#nextProblem(href='javascript:;')
+                                i.fas.fa-angle-right.fa-2x
+                        li.nav-item.active(style="line-height: 35px;")
                             a.nav-link(href='/')
                                 i.fa.fa-home.fa-lg
                             span.sr-only (current)
@@ -66,17 +70,42 @@ block content
         const prevBt = document.getElementById("prevProblem");
         const nextBt = document.getElementById("nextProblem");
 
-        var now
+        const submitBt = document.getElementById("submitBt");
 
+        submitBt.addEventListener('click', () => {
+            fetch('/submit', {
+                method: "GET"
+               }
+            ).then(res => res.json())
+            .then(data => {
+                alert(data.allCnt + "/" + data.CorrectAnswer)
+
+                for(var i = 0; i < data.wrongProblem.length; i++){
+                    const problemCheck = document.getElementById("problemCheck" + data.wrongProblem[i])
+
+                    if(problemCheck.hasChildNodes()){
+                         problemCheck.firstChild.style='color: red;'
+
+                        continue
+                    }
+
+                    const icon = document.createElement("i")
+                    icon.className = "fas fa-check"
+                    problemCheck.style="color: red;"
+
+                    problemCheck.appendChild(icon)
+                }
+            })
+        })
         
         problemCheck = function(pNum, qNum){
             fetch('/exam/problems/' + pNum, {
             method: "POST",
             headers: {"Content-Type": "application/json"}, 
             body: JSON.stringify({check: qNum})
-            }).
-            then(res => res.json()).
-            then(data => {
+            }
+            ).then(res => res.json())
+            .then(data => {
                 const problemCheck = document.getElementById("problemCheck" + data.pNum)
 
                 if(data.isCheck){
